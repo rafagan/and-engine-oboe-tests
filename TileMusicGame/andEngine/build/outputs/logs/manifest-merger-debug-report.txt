@@ -1,0 +1,39 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml:2:1-8:12
+INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml:2:1-8:12
+INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml:2:1-8:12
+INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml:2:1-8:12
+INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml:2:1-8:12
+INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml:2:1-8:12
+INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml:2:1-8:12
+	package
+		ADDED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml:3:2-32
+		INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml
+		INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml
+	android:versionName
+		ADDED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml:5:2-27
+		INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml
+		INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml:2:11-69
+	android:versionCode
+		ADDED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml:4:2-25
+		INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml
+		INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml
+application
+ADDED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml:7:2-16
+uses-sdk
+INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml
+INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml
+INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml
+INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml
+		ADDED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml
+		INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml
+		ADDED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml
+		INJECTED from /Users/rafagan/Projects/Kolb/TileMusicGame/andEngine/src/main/AndroidManifest.xml
