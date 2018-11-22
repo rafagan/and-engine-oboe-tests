@@ -2,47 +2,24 @@
 #include <string>
 #include <iostream>
 #include <android/log.h>
+#include <oboe/Oboe.h>
+#include "androidbuf.h"
+#include "logging_macros.h"
 
 using namespace std;
-
-class androidbuf : public std::streambuf {
-public:
-    enum { bufsize = 128 }; // ... or some other suitable buffer size
-    androidbuf() { this->setp(buffer, buffer + bufsize - 1); }
-
-private:
-    int overflow(int c)
-    {
-        if (c == traits_type::eof()) {
-            *this->pptr() = traits_type::to_char_type(c);
-            this->sbumpc();
-        }
-        return this->sync()? traits_type::eof(): traits_type::not_eof(c);
-    }
-
-    int sync()
-    {
-        int rc = 0;
-        if (this->pbase() != this->pptr()) {
-            char writebuf[bufsize+1];
-            memcpy(writebuf, this->pbase(), this->pptr() - this->pbase());
-            writebuf[this->pptr() - this->pbase()] = '\0';
-
-            rc = __android_log_write(ANDROID_LOG_INFO, "std", writebuf) > 0;
-            this->setp(buffer, buffer + bufsize - 1);
-        }
-        return rc;
-    }
-
-    char buffer[bufsize];
-};
-
+using namespace oboe;
 
 extern "C" JNIEXPORT jstring JNICALL
 Java_tilemusicgame_tutorial_rafagan_tilemusicgame_NativeCallsKt_stringFromJNI(
         JNIEnv *env,
         jobject /* this */) {
     std::string hello = "Hello from C++";
+
+    std::cout.rdbuf(new androidbuf);
+    cout << "Testeeeeeeeeeeeeeeeeee" << endl;
+    __android_log_print(ANDROID_LOG_INFO, "teste", "This is my first log in LogCat");
+    delete std::cout.rdbuf(0);
+
     return env->NewStringUTF(hello.c_str());
 }
 
@@ -52,11 +29,19 @@ Java_tilemusicgame_tutorial_rafagan_tilemusicgame_NativeCallsKt_playSound(
         JNIEnv *env,
         jobject /* this */) {
 
-    std::cout.rdbuf(new androidbuf);
+    LOGI("Inciando algoritmo para tocar som");
 
-    cout << "Testeeeeeeeeeeeeeeeeee" << endl;
-    __android_log_print(ANDROID_LOG_INFO, "teste", "This is my first log in LogCat");
+    AudioStreamBuilder builder;
+    builder.setDirection(oboe::Direction::Output);
+    builder.setPerformanceMode(oboe::PerformanceMode::LowLatency);
+    builder.setSharingMode(oboe::SharingMode::Exclusive);
 
-    delete std::cout.rdbuf(0);
+    AudioStream *stream = nullptr;
+    Result result = builder.openStream(&stream);
+    if (result != Result::OK){
+        LOGE("Failed to create stream. Error: %s", oboe::convertToText(result));
+    }
+
+    LOGI("Finalzando algoritmo para tocar som");
     return 0;
 }

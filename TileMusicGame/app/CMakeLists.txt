@@ -29,7 +29,17 @@ find_library( # Sets the name of the path variable.
         # you want CMake to locate.
         log)
 
+# Oboe
 
+# Set the path to the Oboe library directory
+set (OBOE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../oboe)
+
+# Add the Oboe library as a subproject. Since Oboe is an out-of-tree source library we must also
+# specify a binary directory
+add_subdirectory(${OBOE_DIR} ./oboe-bin)
+
+# Include the Oboe headers
+include_directories(${OBOE_DIR}/include)
 
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
@@ -37,6 +47,5 @@ find_library( # Sets the name of the path variable.
 
 target_link_libraries( # Specifies the target library.
         native-lib
-        # Links the target library to the log library
-        # included in the NDK.
-        ${log-lib})
+        ${log-lib}
+        oboe)
