@@ -5,6 +5,7 @@
 #include <oboe/Oboe.h>
 #include "androidbuf.h"
 #include "logging_macros.h"
+#include "AudioPlayer.h"
 
 using namespace std;
 using namespace oboe;
@@ -24,24 +25,15 @@ Java_tilemusicgame_tutorial_rafagan_tilemusicgame_NativeCallsKt_stringFromJNI(
 }
 
 
+AudioPlayer player;
+
 extern "C" JNIEXPORT jint JNICALL
 Java_tilemusicgame_tutorial_rafagan_tilemusicgame_NativeCallsKt_playSound(
         JNIEnv *env,
         jobject /* this */) {
 
     LOGI("Inciando algoritmo para tocar som");
-
-    AudioStreamBuilder builder;
-    builder.setDirection(oboe::Direction::Output);
-    builder.setPerformanceMode(oboe::PerformanceMode::LowLatency);
-    builder.setSharingMode(oboe::SharingMode::Exclusive);
-
-    AudioStream *stream = nullptr;
-    Result result = builder.openStream(&stream);
-    if (result != Result::OK){
-        LOGE("Failed to create stream. Error: %s", oboe::convertToText(result));
-    }
-
+    player.playSound();
     LOGI("Finalzando algoritmo para tocar som");
     return 0;
 }
