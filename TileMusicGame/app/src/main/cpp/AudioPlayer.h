@@ -7,20 +7,15 @@
 
 #include <oboe/Oboe.h>
 #include "SoundRecording.h"
-#include "Mixer.h"
-#include "LockFreeQueue.h"
-#include "UtilityFunctions.h"
 
 constexpr int kSampleRateHz = 48000;
 constexpr int kBufferSizeInBursts = 2;
-constexpr int kMaxQueueItems = 4;
 
 class AudioPlayer: public oboe::AudioStreamCallback {
 private:
     AAssetManager* assetManager{nullptr};
     SoundRecording* backingTrack{nullptr};
     SoundRecording* clap{nullptr};
-    Mixer mixer;
     oboe::AudioStream *audioStream{nullptr};
 
     oboe::DataCallbackResult onAudioReady(

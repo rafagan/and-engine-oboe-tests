@@ -46,7 +46,7 @@ SoundRecording * SoundRecording::loadFromAssets(AAssetManager *assetManager, con
     // Load the backing track
     AAsset* asset = AAssetManager_open(assetManager, filename, AASSET_MODE_BUFFER);
 
-    if (asset == nullptr){
+    if (asset == nullptr) {
         LOGE("Failed to open track, filename %s", filename);
         return nullptr;
     }
@@ -57,7 +57,7 @@ SoundRecording * SoundRecording::loadFromAssets(AAssetManager *assetManager, con
     // Load it into memory
     const int16_t *audioBuffer = static_cast<const int16_t*>(AAsset_getBuffer(asset));
 
-    if (audioBuffer == nullptr){
+    if (audioBuffer == nullptr) {
         LOGE("Could not get buffer for track");
         return nullptr;
     }

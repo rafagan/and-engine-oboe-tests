@@ -8,6 +8,7 @@
 #include "logging_macros.h"
 
 using namespace oboe;
+constexpr int kChannelCount{2};
 
 AudioPlayer::AudioPlayer(AAssetManager* assetManager)
         : assetManager(assetManager)
@@ -17,13 +18,8 @@ AudioPlayer::AudioPlayer(AAssetManager* assetManager)
 }
 
 void AudioPlayer::playSound() {
-    backingTrack = SoundRecording::loadFromAssets(assetManager, "music.raw" );
     backingTrack->setPlaying(true);
     backingTrack->setLooping(true);
-
-    // Add the clap and backing track sounds to a mixer so that they can be played together
-    // simultaneously using a single audio stream.
-    mixer.addTrack(backingTrack);
 
     // Create a builder
     AudioStreamBuilder builder;
@@ -53,7 +49,7 @@ void AudioPlayer::playSound() {
 
 DataCallbackResult AudioPlayer::onAudioReady(AudioStream *oboeStream, void *audioData, int32_t numFrames) {
     for (int i = 0; i < numFrames; ++i) {
-        mixer.renderAudio(static_cast<int16_t*>(audioData)+(kChannelCount*i), 1);
+        backingTrack->renderAudio(static_cast<int16_t*>(audioData)+(kChannelCount*i), 1);
     }
 
     return DataCallbackResult::Continue;
