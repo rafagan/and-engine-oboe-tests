@@ -13,7 +13,7 @@ constexpr int kChannelCount{2};
 AudioPlayer::AudioPlayer(AAssetManager* assetManager)
         : assetManager(assetManager)
 {
-    backingTrack = SoundRecording::loadFromAssets(assetManager, "whistle.raw");
+    backingTrack = SoundRecording::loadFromAssets(assetManager, "whistle3.wav");
     clap = SoundRecording::loadFromAssets(assetManager, "clap.raw");
 }
 
@@ -42,7 +42,7 @@ void AudioPlayer::playSound() {
     }
 
     result = audioStream->requestStart();
-    if (result != Result::OK){
+    if (result != Result::OK) {
         LOGE("Failed to start stream. Error: %s", convertToText(result));
     }
 }
