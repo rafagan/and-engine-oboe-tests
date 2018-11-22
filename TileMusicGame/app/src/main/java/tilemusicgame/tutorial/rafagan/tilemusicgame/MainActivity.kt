@@ -1,20 +1,23 @@
 package tilemusicgame.tutorial.rafagan.tilemusicgame
 
-import android.os.Bundle
+import android.util.Log
 import org.anddev.andengine.engine.Engine
 import org.anddev.andengine.engine.camera.Camera
 import org.anddev.andengine.engine.options.EngineOptions
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy
 import org.anddev.andengine.entity.primitive.Rectangle
 import org.anddev.andengine.entity.scene.Scene
-import org.anddev.andengine.entity.scene.background.BaseBackground
 import org.anddev.andengine.entity.scene.background.ColorBackground
-import org.anddev.andengine.entity.scene.background.IBackground
-import org.anddev.andengine.opengl.font.Font
-import org.anddev.andengine.opengl.font.FontFactory
 import org.anddev.andengine.ui.activity.BaseGameActivity
 
 class MainActivity : BaseGameActivity() {
+    companion object {
+        init {
+            // Used to load the 'native-lib' library on application startup.
+            System.loadLibrary("native-lib")
+        }
+    }
+
     lateinit var rect: Rectangle
 
     override fun onLoadEngine(): Engine {
@@ -29,7 +32,8 @@ class MainActivity : BaseGameActivity() {
     }
 
     override fun onLoadResources() {
-
+        Log.d("testando 123", stringFromJNI())
+        playSound()
     }
 
     override fun onLoadScene(): Scene {
