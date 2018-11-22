@@ -18,9 +18,7 @@
 #include "logging_macros.h"
 
 void SoundRecording::renderAudio(int16_t *targetData, int32_t numFrames){
-
     if (mIsPlaying){
-
         // Check whether we're about to reach the end of the recording
         if (!mIsLooping && mReadFrameIndex + numFrames >= mTotalFrames){
             numFrames = mTotalFrames - mReadFrameIndex;
@@ -45,7 +43,6 @@ void SoundRecording::renderAudio(int16_t *targetData, int32_t numFrames){
 }
 
 SoundRecording * SoundRecording::loadFromAssets(AAssetManager *assetManager, const char *filename) {
-
     // Load the backing track
     AAsset* asset = AAssetManager_open(assetManager, filename, AASSET_MODE_BUFFER);
 

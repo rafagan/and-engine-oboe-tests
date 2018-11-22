@@ -7,12 +7,13 @@
 
 #include <oboe/Oboe.h>
 #include "SoundRecording.h"
+#include "Mixer.h"
 
 class AudioPlayer: public oboe::AudioStreamCallback {
 private:
     AAssetManager* assetManager{nullptr};
-    oboe::AudioStreamBuilder builder;
     SoundRecording* sound{nullptr};
+    Mixer mixer;
 
     oboe::DataCallbackResult onAudioReady(
             oboe::AudioStream *oboeStream,

@@ -12,17 +12,19 @@ using namespace oboe;
 AudioPlayer::AudioPlayer(AAssetManager* assetManager)
         : assetManager(assetManager)
 {
-    builder.setDirection(oboe::Direction::Output);
-    builder.setPerformanceMode(oboe::PerformanceMode::LowLatency);
-    builder.setSharingMode(oboe::SharingMode::Exclusive);
-    builder.setCallback(this);
-
-    sound = SoundRecording::loadFromAssets(assetManager, "CLAP.raw");
+    sound = SoundRecording::loadFromAssets(assetManager, "music");
 }
 
 void AudioPlayer::playSound() {
     sound->setPlaying(true);
     sound->setLooping(true);
+    mixer.addTrack(sound);
+
+    AudioStreamBuilder builder;
+    builder.setDirection(oboe::Direction::Output);
+    builder.setPerformanceMode(oboe::PerformanceMode::LowLatency);
+    builder.setSharingMode(oboe::SharingMode::Exclusive);
+    builder.setCallback(this);
 
     AudioStream *stream = nullptr;
     Result result = builder.openStream(&stream);
@@ -37,19 +39,9 @@ void AudioPlayer::playSound() {
 }
 
 DataCallbackResult AudioPlayer::onAudioReady(AudioStream *oboeStream, void *audioData, int32_t numFrames) {
-//    int64_t nextClapEvent;
-
-//    for (int i = 0; i < numFrames; ++i) {
-//
-//        if (mClapEvents.peek(nextClapEvent) && mCurrentFrame == nextClapEvent){
-//            mClap->setPlaying(true);
-//            mClapEvents.pop(nextClapEvent);
-//        }
-//        mMixer.renderAudio(static_cast<int16_t*>(audioData)+(kChannelCount*i), 1);
-//        mCurrentFrame++;
-//    }
-//
-//    mLastUpdateTime = nowUptimeMillis();
+    for (int i = 0; i < numFrames; ++i) {
+        mixer.renderAudio(static_cast<int16_t*>(audioData)+(kChannelCount*i), 1);
+    }
 
     return DataCallbackResult::Continue;
 }
