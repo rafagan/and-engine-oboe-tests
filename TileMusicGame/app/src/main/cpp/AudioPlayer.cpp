@@ -12,36 +12,49 @@ using namespace oboe;
 AudioPlayer::AudioPlayer(AAssetManager* assetManager)
         : assetManager(assetManager)
 {
-    sound = SoundRecording::loadFromAssets(assetManager, "music.raw");
+    backingTrack = SoundRecording::loadFromAssets(assetManager, "music.raw");
+    clap = SoundRecording::loadFromAssets(assetManager, "clap.raw");
 }
 
 void AudioPlayer::playSound() {
-    sound->setPlaying(true);
-    sound->setLooping(false);
-    mixer.addTrack(sound);
+    backingTrack = SoundRecording::loadFromAssets(assetManager, "music.raw" );
+    backingTrack->setPlaying(true);
+    backingTrack->setLooping(true);
 
+    // Add the clap and backing track sounds to a mixer so that they can be played together
+    // simultaneously using a single audio stream.
+    mixer.addTrack(backingTrack);
+
+    // Create a builder
     AudioStreamBuilder builder;
-    builder.setDirection(oboe::Direction::Output);
-    builder.setPerformanceMode(oboe::PerformanceMode::LowLatency);
-    builder.setSharingMode(oboe::SharingMode::Exclusive);
+    builder.setFormat(AudioFormat::I16);
+    builder.setChannelCount(2);
+    builder.setSampleRate(kSampleRateHz);
     builder.setCallback(this);
+    builder.setPerformanceMode(PerformanceMode::LowLatency);
+    builder.setSharingMode(SharingMode::Exclusive);
 
-    AudioStream *stream = nullptr;
-    Result result = builder.openStream(&stream);
-    if (result != Result::OK) {
-        LOGE("Failed to create stream. Error: %s", convertToText(result));
+    Result result = builder.openStream(&audioStream);
+    if (result != Result::OK){
+        LOGE("Failed to open stream. Error: %s", convertToText(result));
     }
 
-    result = stream->requestStart();
-    if (result != Result::OK) {
-        LOGE("Error starting stream. Error: %s", convertToText(result));
+    // Reduce stream latency by setting the buffer size to a multiple of the burst size
+    auto setBufferSizeResult = audioStream->setBufferSizeInFrames(audioStream->getFramesPerBurst() * kBufferSizeInBursts);
+    if (setBufferSizeResult != Result::OK){
+        LOGW("Failed to set buffer size. Error: %s", convertToText(setBufferSizeResult.error()));
+    }
+
+    result = audioStream->requestStart();
+    if (result != Result::OK){
+        LOGE("Failed to start stream. Error: %s", convertToText(result));
     }
 }
 
 DataCallbackResult AudioPlayer::onAudioReady(AudioStream *oboeStream, void *audioData, int32_t numFrames) {
-//    for (int i = 0; i < numFrames; ++i) {
-//        mixer.renderAudio(static_cast<int16_t*>(audioData)+(kChannelCount*i), 1);
-//    }
+    for (int i = 0; i < numFrames; ++i) {
+        mixer.renderAudio(static_cast<int16_t*>(audioData)+(kChannelCount*i), 1);
+    }
 
     return DataCallbackResult::Continue;
 }
