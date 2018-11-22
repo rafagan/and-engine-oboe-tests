@@ -12,12 +12,12 @@ using namespace oboe;
 AudioPlayer::AudioPlayer(AAssetManager* assetManager)
         : assetManager(assetManager)
 {
-    sound = SoundRecording::loadFromAssets(assetManager, "music");
+    sound = SoundRecording::loadFromAssets(assetManager, "music.raw");
 }
 
 void AudioPlayer::playSound() {
     sound->setPlaying(true);
-    sound->setLooping(true);
+    sound->setLooping(false);
     mixer.addTrack(sound);
 
     AudioStreamBuilder builder;
@@ -39,9 +39,9 @@ void AudioPlayer::playSound() {
 }
 
 DataCallbackResult AudioPlayer::onAudioReady(AudioStream *oboeStream, void *audioData, int32_t numFrames) {
-    for (int i = 0; i < numFrames; ++i) {
-        mixer.renderAudio(static_cast<int16_t*>(audioData)+(kChannelCount*i), 1);
-    }
+//    for (int i = 0; i < numFrames; ++i) {
+//        mixer.renderAudio(static_cast<int16_t*>(audioData)+(kChannelCount*i), 1);
+//    }
 
     return DataCallbackResult::Continue;
 }
