@@ -1,5 +1,7 @@
 package tilemusicgame.tutorial.rafagan.tilemusicgame
 
+import android.content.res.AssetManager
+
 
 /**
  * A native method that is implemented by the 'native-lib' native library,
@@ -7,4 +9,4 @@ package tilemusicgame.tutorial.rafagan.tilemusicgame
  */
 external fun stringFromJNI(): String
 
-external fun playSound()
+external fun playSound(assetManager: AssetManager)

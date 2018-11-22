@@ -26,11 +26,20 @@ add_library( # Sets the name of the library.
 # you want to add. CMake verifies that the library exists before
 # completing its build.
 
-find_library( # Sets the name of the path variable.
+find_library(
+        # Sets the name of the path variable.
         log-lib
         # Specifies the name of the NDK library that
         # you want CMake to locate.
         log)
+
+find_library(
+        # Sets the name of the path variable.
+        android-lib
+
+        # Specifies the name of the NDK library that
+        # you want CMake to locate.
+        android )
 
 # Oboe
 
@@ -51,4 +60,5 @@ include_directories(${OBOE_DIR}/include)
 target_link_libraries( # Specifies the target library.
         native-lib
         ${log-lib}
+        ${android-lib}
         oboe)

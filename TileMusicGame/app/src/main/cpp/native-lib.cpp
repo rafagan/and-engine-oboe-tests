@@ -6,6 +6,8 @@
 #include "androidbuf.h"
 #include "logging_macros.h"
 #include "AudioPlayer.h"
+#include <android/asset_manager_jni.h>
+#include <memory>
 
 using namespace std;
 using namespace oboe;
@@ -25,15 +27,17 @@ Java_tilemusicgame_tutorial_rafagan_tilemusicgame_NativeCallsKt_stringFromJNI(
 }
 
 
-AudioPlayer player;
+std::unique_ptr<AudioPlayer> player;
 
-extern "C" JNIEXPORT jint JNICALL
+extern "C" JNIEXPORT void JNICALL
 Java_tilemusicgame_tutorial_rafagan_tilemusicgame_NativeCallsKt_playSound(
         JNIEnv *env,
-        jobject /* this */) {
+        jobject /* this */,
+        jobject jAssetManager) {
 
     LOGI("Inciando algoritmo para tocar som");
-    player.playSound();
+    AAssetManager* assetManager = AAssetManager_fromJava(env, jAssetManager);
+    player = make_unique<AudioPlayer>(assetManager);
+    player->playSound();
     LOGI("Finalzando algoritmo para tocar som");
-    return 0;
 }

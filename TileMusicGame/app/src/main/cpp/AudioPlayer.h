@@ -6,11 +6,20 @@
 #define TILEMUSICGAME_AUDIOPLAYER_H
 
 #include <oboe/Oboe.h>
+#include "SoundRecording.h"
 
-class AudioPlayer {
+class AudioPlayer: public oboe::AudioStreamCallback {
 private:
+    AAssetManager* assetManager{nullptr};
     oboe::AudioStreamBuilder builder;
+    SoundRecording* sound{nullptr};
+
+    oboe::DataCallbackResult onAudioReady(
+            oboe::AudioStream *oboeStream,
+            void *audioData,
+            int32_t numFrames) override;
 public:
+    explicit AudioPlayer(AAssetManager* assetManager);
     void playSound();
 };
 

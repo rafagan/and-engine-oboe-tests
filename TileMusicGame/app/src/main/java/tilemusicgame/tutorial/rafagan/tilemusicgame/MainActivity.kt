@@ -33,7 +33,7 @@ class MainActivity : BaseGameActivity() {
 
     override fun onLoadResources() {
         Log.d("testando 123", stringFromJNI())
-        playSound()
+        playSound(assets)
     }
 
     override fun onLoadScene(): Scene {
