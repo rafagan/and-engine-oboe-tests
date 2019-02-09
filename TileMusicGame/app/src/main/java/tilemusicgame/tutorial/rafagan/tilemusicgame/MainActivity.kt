@@ -1,5 +1,6 @@
 package tilemusicgame.tutorial.rafagan.tilemusicgame
 
+import android.graphics.Paint
 import org.anddev.andengine.engine.Engine
 import org.anddev.andengine.engine.camera.Camera
 import org.anddev.andengine.engine.options.EngineOptions
@@ -10,6 +11,8 @@ import org.anddev.andengine.entity.scene.background.ColorBackground
 import org.anddev.andengine.ui.activity.BaseGameActivity
 import android.media.MediaPlayer
 import android.util.Log
+import android.content.pm.PackageManager
+import android.os.Build
 
 
 class MainActivity : BaseGameActivity() {
@@ -39,6 +42,8 @@ class MainActivity : BaseGameActivity() {
         sound = MediaPlayer.create(this, R.raw.whistle)
         sound.isLooping = true
         sound.start()
+
+        Paint()
     }
 
     fun playAssetFileSound() {
@@ -52,9 +57,28 @@ class MainActivity : BaseGameActivity() {
         sound.start()
     }
 
+    fun checkDeviceAudioCapabilities() {
+        /*
+            android.hardware.audio.low_latency indicates a continuous output latency of 45 ms or less.
+            android.hardware.audio.pro indicates a continuous round-trip latency of 20 ms or less.
+         */
+        val hasLowLatencyFeature = packageManager.hasSystemFeature(PackageManager.FEATURE_AUDIO_LOW_LATENCY)
+        Log.d("Audio latencia", hasLowLatencyFeature.toString())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val hasProFeature = packageManager.hasSystemFeature(PackageManager.FEATURE_AUDIO_PRO)
+            Log.d("Audio pro", hasProFeature.toString())
+        }
+    }
+
     override fun onLoadResources() {
-        Log.d("testando 123", stringFromJNI())
-        playSound(assets)
+        Log.d("testando 123", stringFromJNI(this))
+//        playSound(assets)
+
+        checkDeviceAudioCapabilities()
+    }
+
+    fun callFromJava() {
+        Log.d("JNI_CAll", "Chamei o Java do C++")
     }
 
     override fun onLoadScene(): Scene {

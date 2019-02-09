@@ -15,13 +15,19 @@ using namespace oboe;
 extern "C" JNIEXPORT jstring JNICALL
 Java_tilemusicgame_tutorial_rafagan_tilemusicgame_NativeCallsKt_stringFromJNI(
         JNIEnv *env,
-        jobject /* this */) {
+        jobject /* this */,
+        jobject activity)
+{
     std::string hello = "Hello from C++";
 
     std::cout.rdbuf(new androidbuf);
     cout << "Testeeeeeeeeeeeeeeeeee" << endl;
     __android_log_print(ANDROID_LOG_INFO, "teste", "This is my first log in LogCat");
     delete std::cout.rdbuf(0);
+
+
+    auto callFromJava = env->GetMethodID(env->GetObjectClass(activity), "callFromJava", "()V");
+    env->CallVoidMethod(activity, callFromJava);
 
     return env->NewStringUTF(hello.c_str());
 }
